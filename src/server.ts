@@ -5,22 +5,20 @@ import mongoose from 'mongoose';
 import Logging from './library/Logging';
 
 import authorRoutes from './routes/Author';
+import bookRoutes from './routes/Book';
 
 const router = express();
 
-// connect to Mongo
+/** Connect to Mongo */
 mongoose
     .connect(config.mongo.url, { retryWrites: true, w: 'majority' })
     .then(() => {
-        Logging.info('Connected to MongoDB.');
+        Logging.info('Mongo connected successfully.');
         StartServer();
     })
-    .catch((error) => {
-        Logging.error('Unable to connect.');
-        Logging.error(error);
-    });
+    .catch((error) => Logging.error(error));
 
-/** Only start the server if Mongo connects */
+/** Only Start Server if Mongoose Connects */
 const StartServer = () => {
     /** Log the request */
     router.use((req, res, next) => {
@@ -51,8 +49,9 @@ const StartServer = () => {
         next();
     });
 
-    /** Routes*/
+    /** Routes */
     router.use('/authors', authorRoutes);
+    router.use('/books', bookRoutes);
 
     /** Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ hello: 'world' }));
@@ -60,6 +59,7 @@ const StartServer = () => {
     /** Error handling */
     router.use((req, res, next) => {
         const error = new Error('Not found');
+
         Logging.error(error);
 
         res.status(404).json({
