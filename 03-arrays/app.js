@@ -1,0 +1,16 @@
+"use strict";
+let arrString = ['a', 'b', 'c'];
+let arrNumber = [1, 3, 5, 6, 7, 8, 9, 10, 11, 12];
+let arrBool = [true, false, false];
+let arrMix = [1, 'a', true];
+let arrTup = ['a string', 5];
+arrTup = ['S', 4];
+arrString[0] = '5';
+arrString.push('text');
+arrNumber[4] = 14;
+arrNumber.push(5);
+arrBool[2] = true;
+arrBool.push(false);
+arrMix[0] = 'text';
+arrMix[1] = 45;
+arrMix.push(true);
